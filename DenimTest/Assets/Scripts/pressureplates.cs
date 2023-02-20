@@ -6,20 +6,17 @@ public class pressureplates : MonoBehaviour
 {
     public GameObject trigger;
 
+    public PlayerMove player;
+
     void Start()
     {
         trigger.SetActive(true);
     }
 
     public void OnTriggerEnter(Collider other)
-    {
-        PlayerMove score = other.gameObject.GetComponent<PlayerMove>();
-        if(score != null)
-        {
-            score.Plates(1);
-        }
-
+    {        
         Debug.Log("land");
+        player.Plates();
         trigger.SetActive(false);
-    } 
+    }
 }

@@ -9,19 +9,24 @@ public class EnemyAI : MonoBehaviour
     public Transform player;
     public LayerMask whatIsGround, whatIsPlayer;
 
-    //Patrolling
+    [Header("Patrolling")]
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
 
-    //Attacking
+    [Header("Attacking")]
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public GameObject attacker;
 
-    //States
+    [Header("States")]
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
+
+    [Header("States")]
+    public int stunTime;
+    public GameObject enemyBod;
+    public bool isStunned;
 
     void Awake()
     {
@@ -80,21 +85,27 @@ public class EnemyAI : MonoBehaviour
                         
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
-
     }
 
     void ResetAttack()
     {       
-        alreadyAttacked = false;
+        alreadyAttacked = false;        
         attacker.SetActive(true);
     }
 
-    private void OnDrawGizmosSelected()
+    public void Stun()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Debug.Log("Hit");
+        isStunned = true;
+        enemyBod.SetActive(false);
 
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Invoke(nameof(Unstun), stunTime);
     }
+
+    public void Unstun()
+    {
+        Debug.Log("Unstun");
+        isStunned = false;
+        enemyBod.SetActive(true);
+    }    
 }

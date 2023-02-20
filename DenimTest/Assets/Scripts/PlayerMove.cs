@@ -6,8 +6,9 @@ using TMPro;
 
 public class PlayerMove : MonoBehaviour
 {
-    [Header("Movement")]
     private float moveSpeed;
+
+    [Header("Movement")]    
     public float walkSpeed;
     public float sprintSpeed;
 
@@ -37,10 +38,17 @@ public class PlayerMove : MonoBehaviour
 
     [Header("Health")]
     public int maxHealth;
-    public int currentHealth;
+    public int currentHealth;    
+    public float timeBetweenDamage;
+
+    [Header("Attacks")]
+    public EnemyAI enemy;
+    public bool attacking;
+
+    [Header("Screens")]
     public GameObject damageScreen;
     public GameObject deathText;
-    public float timeBetweenDamage;
+    public GameObject winScreen;
 
     public Transform orientation;
 
@@ -74,6 +82,7 @@ public class PlayerMove : MonoBehaviour
         currentHealth = maxHealth;
         damageScreen.SetActive(false);
         deathText.SetActive(false);
+        winScreen.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -131,7 +140,12 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKeyDown(touchKey))
         {
+            attacking = true;
+        }
 
+        if (Input.GetKeyUp(touchKey))
+        {
+            attacking = false;
         }
     }
 
@@ -205,6 +219,11 @@ public class PlayerMove : MonoBehaviour
             Debug.Log("collide");
             TakeDamage(1);
         }
+
+        if (col.gameObject.tag == "Plates")
+        {
+            Plates();
+        }
     }
 
     public void TakeDamage(int amount)
@@ -235,9 +254,27 @@ public class PlayerMove : MonoBehaviour
         damageScreen.SetActive(false);
     }
 
-    public void Plates(int amount)
+    public void Plates()
     {
-        cumulate = cumulate + amount;
+        cumulate = cumulate + 1;
         Debug.Log(cumulate);
+
+        if (cumulate == 3)
+        {
+            winScreen.SetActive(true);
+            rb.constraints = RigidbodyConstraints.FreezePosition;
+        }
+    }
+
+    public void OnCollisionStay(Collision attack)
+    {
+        if (attack.gameObject.tag == "Enemy")
+        {
+            if (attacking == true)
+            {
+                enemy.Stun();
+                Debug.Log("Stun");
+            }
+        }
     }
 }

@@ -17,20 +17,21 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timeBetweenAttacks <= 0)
+        if (Input.GetKey(KeyCode.F))
         {
-            if (Input.GetKey(KeyCode.F))
+            if (timeBetweenAttacks <= 0)
             {
                 Debug.Log("attack");
-                //timeBetweenAttacks = attackCooldown;
+                timeBetweenAttacks = attackCooldown;
             }
 
+            else
+            {
+                Debug.Log("hit");
+                timeBetweenAttacks -= Time.deltaTime;
+            }
         }
 
-        else
-        {
-            Debug.Log("hit");
-            //timeBetweenAttacks -= Time.deltaTime;
-        }
+        
     }
 }
