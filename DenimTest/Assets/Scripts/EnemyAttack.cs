@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
-{    
-    void OnCollisionEnter(Collision collision)
+{
+    public GameObject health;
+
+    void OnCollisionEnter(Collision col)
     {
         Debug.Log("collide");
 
-        HealthManager healthScore = gameObject.GetComponent<HealthManager>();
-        if(healthScore != null)
+        if (col.gameObject.tag == "Enemy")
         {
-            Debug.Log("activate");
-            healthScore.TakeDamage(1);
+
+        }
+
+        //HealthManager healthScore = gameObject.GetComponent<HealthManager>();
+        //if(healthScore != null)
+        {
+            //Debug.Log("activate");
+            //healthScore.TakeDamage(1);
         }
 
     }

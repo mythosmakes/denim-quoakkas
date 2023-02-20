@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -26,16 +28,26 @@ public class PlayerMove : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.LeftControl;
+    public KeyCode touchKey = KeyCode.E;
 
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
 
+    [Header("Health")]
+    public int maxHealth;
+    public int currentHealth;
+    public GameObject damageScreen;
+    public GameObject deathText;
+    public float timeBetweenDamage;
+
     public Transform orientation;
 
     float horizontalInput;
     float verticalInput;
+
+    public int cumulate;
 
     Vector3 moveDirection;
 
@@ -58,6 +70,10 @@ public class PlayerMove : MonoBehaviour
 
         readyTojump = true;
         startYScale = transform.localScale.y;
+
+        currentHealth = maxHealth;
+        damageScreen.SetActive(false);
+        deathText.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -79,6 +95,11 @@ public class PlayerMove : MonoBehaviour
         MyInput();
         SpeedControl();
         StateHandler();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     void MyInput()
@@ -96,7 +117,7 @@ public class PlayerMove : MonoBehaviour
 
 
         //crouch
-        if(Input.GetKeyDown(crouchKey))
+        if (Input.GetKeyDown(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
@@ -107,12 +128,17 @@ public class PlayerMove : MonoBehaviour
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
         }
+
+        if (Input.GetKeyDown(touchKey))
+        {
+
+        }
     }
 
     void StateHandler()
     {
         // crouch
-        if(Input.GetKey(crouchKey))
+        if (Input.GetKey(crouchKey))
         {
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
@@ -140,7 +166,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     void MovePlayer()
-    {        
+    {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         if (grounded)
@@ -153,7 +179,7 @@ public class PlayerMove : MonoBehaviour
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        if(flatVel.magnitude > moveSpeed)
+        if (flatVel.magnitude > moveSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * moveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
@@ -170,5 +196,48 @@ public class PlayerMove : MonoBehaviour
     void ResetJump()
     {
         readyTojump = true;
+    }
+
+    void OnCollisionEnter(Collision col)
+    {        
+        if (col.gameObject.tag == "Enemy")
+        {
+            Debug.Log("collide");
+            TakeDamage(1);
+        }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        Debug.Log("damage");
+        currentHealth -= amount;
+
+        Invoke(nameof(DamageScreen), timeBetweenDamage);
+
+        if (currentHealth <= 0)
+        {
+            Debug.Log("ded");
+            damageScreen.SetActive(true);
+            deathText.SetActive(true);
+            Time.timeScale = 0f;            
+        }
+    }
+
+    public void DamageScreen()
+    {
+        damageScreen.SetActive(true);
+
+        Invoke(nameof(UndoDamage), 0.5f);
+    }
+
+    public void UndoDamage()
+    {
+        damageScreen.SetActive(false);
+    }
+
+    public void Plates(int amount)
+    {
+        cumulate = cumulate + amount;
+        Debug.Log(cumulate);
     }
 }
