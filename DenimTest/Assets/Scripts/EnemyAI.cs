@@ -18,12 +18,13 @@ public class EnemyAI : MonoBehaviour
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public GameObject attacker;
+    public PlayerMove playerBod;
 
     [Header("States")]
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
-    [Header("States")]
+    [Header("Stun")]
     public int stunTime;
     public GameObject enemyBod;
     public bool isStunned;
@@ -40,7 +41,7 @@ public class EnemyAI : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
+        if (!playerInSightRange && !playerInAttackRange && !isStunned) Patroling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
     }
@@ -107,5 +108,14 @@ public class EnemyAI : MonoBehaviour
         Debug.Log("Unstun");
         isStunned = false;
         enemyBod.SetActive(true);
-    }    
+    }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            Debug.Log("collide");
+            playerBod.TakeDamage(1);
+        }
+    }
 }

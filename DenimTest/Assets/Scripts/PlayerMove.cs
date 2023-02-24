@@ -6,7 +6,7 @@ using TMPro;
 
 public class PlayerMove : MonoBehaviour
 {
-    private float moveSpeed;
+    public float moveSpeed;
 
     [Header("Movement")]    
     public float walkSpeed;
@@ -124,7 +124,6 @@ public class PlayerMove : MonoBehaviour
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-
         //crouch
         if (Input.GetKeyDown(crouchKey))
         {
@@ -142,11 +141,6 @@ public class PlayerMove : MonoBehaviour
         {
             attacking = true;
         }
-
-        if (Input.GetKeyUp(touchKey))
-        {
-            attacking = false;
-        }
     }
 
     void StateHandler()
@@ -159,7 +153,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         //sprint
-        if (grounded && Input.GetKey(sprintKey))
+        if (grounded && Input.GetKey(sprintKey) && moveSpeed != crouchSpeed)
         {
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
@@ -213,13 +207,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision col)
-    {        
-        if (col.gameObject.tag == "Enemy")
-        {
-            Debug.Log("collide");
-            TakeDamage(1);
-        }
-
+    {                
         if (col.gameObject.tag == "Plates")
         {
             Plates();
@@ -229,7 +217,7 @@ public class PlayerMove : MonoBehaviour
     public void TakeDamage(int amount)
     {
         Debug.Log("damage");
-        currentHealth -= amount;
+        //currentHealth -= amount;
 
         Invoke(nameof(DamageScreen), timeBetweenDamage);
 
@@ -264,17 +252,5 @@ public class PlayerMove : MonoBehaviour
             winScreen.SetActive(true);
             rb.constraints = RigidbodyConstraints.FreezePosition;
         }
-    }
-
-    public void OnCollisionStay(Collision attack)
-    {
-        if (attack.gameObject.tag == "Enemy")
-        {
-            if (attacking == true)
-            {
-                enemy.Stun();
-                Debug.Log("Stun");
-            }
-        }
-    }
+    }    
 }
