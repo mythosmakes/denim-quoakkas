@@ -5,10 +5,11 @@ using UnityEngine;
 public class Flashlight : MonoBehaviour
 {
     public EnemyAI enemy;
+    public GameObject flashlight;
 
     public void OnCollisionEnter(Collision attack)
     {
-        Debug.Log("fjhsgd");
+        Debug.Log("aaaaa");
 
         if (attack.gameObject.tag == "Enemy")
         {
@@ -19,6 +20,8 @@ public class Flashlight : MonoBehaviour
 
     public void OnCollisionStay(Collision present)
     {
+        Debug.Log("yyyyy");
+
         if (present.gameObject.tag == "Enemy")
         {
             enemy.Stun();

@@ -28,6 +28,7 @@ public class EnemyAI : MonoBehaviour
     public int stunTime;
     public GameObject enemyBod;
     public bool isStunned;
+    public GameObject flashlight;
 
     void Awake()
     {
@@ -116,6 +117,11 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.Log("collide");
             playerBod.TakeDamage(1);
+        }
+
+        if (col.gameObject.tag == "Flash")
+        {
+            Stun();
         }
     }
 }
