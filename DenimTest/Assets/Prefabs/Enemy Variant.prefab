@@ -58,6 +58,10 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 84598a7a002f0c44dbd5b2430310be07, type: 2}
     - target: {fileID: 919132149155446097, guid: 704d12d3c14b8d84e82e524d2145bb1a, type: 3}
       propertyPath: m_Name
+      value: Enemy Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 704d12d3c14b8d84e82e524d2145bb1a, type: 3}
+      propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 704d12d3c14b8d84e82e524d2145bb1a, type: 3}
@@ -105,8 +109,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.2216234, y: 2.1393156, z: 2.8511276}
-  m_Center: {x: 0.03292799, y: 1.1710749, z: -0.12390137}
+  m_Size: {x: 1.2216234, y: 2.1393156, z: 2.2907867}
+  m_Center: {x: 0.03292799, y: 1.1710749, z: -0.10121155}
 --- !u!54 &1296275958
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,26 +150,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f319f70b3b24cf4a72ca7c87712159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
+  agent: {fileID: 1296275956}
   player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   whatIsPlayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 0
-  timeBetweenAttacks: 0
-  attacker: {fileID: 0}
+  walkPointRange: 15
+  timeBetweenAttacks: 3
+  attacker: {fileID: 385363366379448155}
   playerBod: {fileID: 0}
-  sightRange: 0
-  attackRange: 0
+  sightRange: 30
+  attackRange: 1
   playerInSightRange: 0
   playerInAttackRange: 0
-  stunTime: 0
-  enemyBod: {fileID: 0}
+  stunTime: 3
+  enemyBod: {fileID: 385363366379448155}
   isStunned: 0
+  flashlight: {fileID: 0}
 --- !u!195 &1296275956
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -173,10 +178,10 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 385363366379448155}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.75
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -185,6 +190,6 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: -0.15
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

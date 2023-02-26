@@ -30,9 +30,9 @@ public class EnemyAI : MonoBehaviour
     public bool isStunned;
     public GameObject flashlight;
 
-    void Awake()
+    void Start()
     {
-        player = GameObject.Find("PlayerBody").transform;
+        player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
         attacker.SetActive(true);
     }
@@ -83,6 +83,7 @@ public class EnemyAI : MonoBehaviour
         if (!alreadyAttacked)
         {
             alreadyAttacked = true;
+
             attacker.SetActive(false);
                         
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
@@ -117,7 +118,7 @@ public class EnemyAI : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Player" && !alreadyAttacked)
-        {            
+        {
             playerBod.TakeDamage(1);
         }
     }

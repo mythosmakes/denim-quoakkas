@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Plates
   - Flash
+  - Levers
   layers:
   - Default
   - TransparentFX

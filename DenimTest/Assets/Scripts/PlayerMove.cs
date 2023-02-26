@@ -206,7 +206,6 @@ public class PlayerMove : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        Debug.Log("damage");
         currentHealth -= amount;
         healthDisplay.text = "Health: " + currentHealth;
 
