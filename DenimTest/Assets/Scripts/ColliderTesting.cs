@@ -7,12 +7,12 @@ public class ColliderTesting : MonoBehaviour
     public EnemyAI enemy;
     public GameObject flashlight;
 
-    public void OnCollisionEnter(Collision attack)
+    public void OnTriggerEnter()
     {
         Debug.Log("aaaaa");
     }
 
-    public void OnCollisionStay(Collision present)
+    public void OnTriggerStay()
     {
         Debug.Log("yyyyy");
     }

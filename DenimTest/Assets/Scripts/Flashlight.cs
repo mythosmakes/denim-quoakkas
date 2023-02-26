@@ -7,25 +7,19 @@ public class Flashlight : MonoBehaviour
     public EnemyAI enemy;
     public GameObject flashlight;
 
-    public void OnCollisionEnter(Collision attack)
+    public void OnTriggerEnter(Collider attack)
     {
-        Debug.Log("aaaaa");
-
         if (attack.gameObject.tag == "Enemy")
         {
-            enemy.Stun();
-            Debug.Log("Stuna");
+            enemy.Stun();           
         }
     }
 
-    public void OnCollisionStay(Collision present)
+    public void OnTriggerStay(Collider present)
     {
-        Debug.Log("yyyyy");
-
         if (present.gameObject.tag == "Enemy")
         {
             enemy.Stun();
-            Debug.Log("Stunb");
         }
     }
 }
