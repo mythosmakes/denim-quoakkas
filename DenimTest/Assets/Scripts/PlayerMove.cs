@@ -6,9 +6,10 @@ using TMPro;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed;
+    public EnemyAI enemy;
 
-    [Header("Movement")]    
+    [Header("Movement")]
+    public float moveSpeed;
     public float walkSpeed;
     public float sprintSpeed;
 
@@ -29,7 +30,6 @@ public class PlayerMove : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode sprintKey = KeyCode.LeftShift;
     public KeyCode crouchKey = KeyCode.LeftControl;
-    public KeyCode touchKey = KeyCode.E;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -40,22 +40,22 @@ public class PlayerMove : MonoBehaviour
     public int maxHealth;
     public int currentHealth;    
     public float timeBetweenDamage;
-
-    [Header("Attacks")]
-    public EnemyAI enemy;
-    public bool attacking;
+    public TextMeshProUGUI healthDisplay;
 
     [Header("Screens")]
     public GameObject damageScreen;
     public GameObject deathText;
     public GameObject winScreen;
 
+    [Header("Interact")]
+    public int cumulate;
+    public TextMeshProUGUI scoreText;
+
+    [Header("Motion")]
     public Transform orientation;
 
     float horizontalInput;
     float verticalInput;
-
-    public int cumulate;
 
     Vector3 moveDirection;
 
@@ -83,6 +83,9 @@ public class PlayerMove : MonoBehaviour
         damageScreen.SetActive(false);
         deathText.SetActive(false);
         winScreen.SetActive(false);
+
+        scoreText.text = "Score: " + 0;
+        healthDisplay.text = "Health: " + maxHealth;
     }
 
     private void FixedUpdate()
@@ -135,11 +138,6 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyUp(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
-        }
-
-        if (Input.GetKeyDown(touchKey))
-        {
-            attacking = true;
         }
     }
 
@@ -206,18 +204,11 @@ public class PlayerMove : MonoBehaviour
         readyTojump = true;
     }
 
-    void OnCollisionEnter(Collision col)
-    {                
-        if (col.gameObject.tag == "Plates")
-        {
-            Plates();
-        }
-    }
-
     public void TakeDamage(int amount)
     {
         Debug.Log("damage");
-        //currentHealth -= amount;
+        currentHealth -= amount;
+        healthDisplay.text = "Health: " + currentHealth;
 
         Invoke(nameof(DamageScreen), timeBetweenDamage);
 
@@ -245,7 +236,7 @@ public class PlayerMove : MonoBehaviour
     public void Plates()
     {
         cumulate = cumulate + 1;
-        Debug.Log(cumulate);
+        scoreText.text = "Score: " + cumulate;
 
         if (cumulate == 3)
         {

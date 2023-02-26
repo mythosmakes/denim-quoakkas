@@ -95,9 +95,13 @@ public class EnemyAI : MonoBehaviour
         attacker.SetActive(true);
     }
 
-    public void Stun()
+    public void Seen()
     {
-        Debug.Log("Hit");
+        Invoke(nameof(Stun), 1);
+    }
+
+    public void Stun()
+    {        
         isStunned = true;
         enemyBod.SetActive(false);
 
@@ -105,23 +109,16 @@ public class EnemyAI : MonoBehaviour
     }
 
     public void Unstun()
-    {
-        Debug.Log("Unstun");
+    {        
         isStunned = false;
         enemyBod.SetActive(true);
     }
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Player")
-        {
-            Debug.Log("collide");
+        if (col.gameObject.tag == "Player" && !alreadyAttacked)
+        {            
             playerBod.TakeDamage(1);
-        }
-
-        if (col.gameObject.tag == "Flash")
-        {
-            Stun();
         }
     }
 }

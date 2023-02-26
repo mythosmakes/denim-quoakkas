@@ -8,12 +8,14 @@ public class PausedMenu : MonoBehaviour
       public GameObject pausedMenu;
       public static bool isPaused;
       public AudioSource audioSource;
+    public GameObject crosshairs;
 
       void Start()
       {
             pausedMenu.SetActive(false);
             isPaused = false;
             Time.timeScale = 1f;
+        crosshairs.SetActive(true);
       }
       
       void Update()
@@ -46,7 +48,8 @@ public class PausedMenu : MonoBehaviour
         pausedMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-      
+        crosshairs.SetActive(false);
+
         PlayerMove controller = GetComponent<PlayerMove>();
         audioSource.Pause();
       }
@@ -60,6 +63,7 @@ public class PausedMenu : MonoBehaviour
             pausedMenu.SetActive(false);
             Time.timeScale = 1f;
             isPaused = false;
+        crosshairs.SetActive(true);
 
             audioSource.Play(0);
       }

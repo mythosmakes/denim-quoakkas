@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class pressureplates : MonoBehaviour
 {
-    public GameObject trigger;
-
+    public GameObject trigger; 
     public PlayerMove player;
 
-    void Start()
+    public void StepActivation()
     {
-        trigger.SetActive(true);
-    }
+        Debug.Log("Activate");
 
-    public void OnTriggerEnter(Collider other)
-    {        
-        Debug.Log("land");
         player.Plates();
         trigger.SetActive(false);
     }

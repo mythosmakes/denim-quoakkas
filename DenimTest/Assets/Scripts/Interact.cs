@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class Interact : MonoBehaviour
 {
-    public Collider coll;
+    public Transform cam;
+    public float playerActivateDistance;
+    public pressureplates interact;
+    bool active = false;
 
-    void Start()
+    void Update()
     {
-        coll = GetComponent<Collider>();
-    }
-
-    public void Touch()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        active = Physics.Raycast(cam.position, cam.TransformDirection(Vector3.forward), out hit, playerActivateDistance);
 
-        if (coll.Raycast(ray, out hit, 2.0f))
+        if(Input.GetKeyDown(KeyCode.F) && active == true)
         {
-            transform.position = ray.GetPoint(100.0f);
-        }        
+            Debug.Log("Send");
+
+            if (hit.transform.GetComponent<pressureplates>() != null)
+            {
+                Debug.Log("Recieved");
+                interact.StepActivation();
+            }
+        }
     }
 }

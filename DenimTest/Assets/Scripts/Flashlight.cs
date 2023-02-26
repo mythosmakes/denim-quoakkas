@@ -19,7 +19,7 @@ public class Flashlight : MonoBehaviour
     {
         if (present.gameObject.tag == "Enemy")
         {
-            enemy.Stun();
+            enemy.Seen();
         }
     }
 }
