@@ -1,28 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Interact : MonoBehaviour
 {
-    public Transform cam;
-    public float playerActivateDistance;
-    public pressureplates interact;
-    bool active = false;
+    public bool isInRange;
+    public KeyCode interactKey;
+    public UnityEvent interactAction;
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
     void Update()
     {
-        RaycastHit hit;
-        active = Physics.Raycast(cam.position, cam.TransformDirection(Vector3.forward), out hit, playerActivateDistance);
-
-        if(Input.GetKeyDown(KeyCode.F) && active == true)
+        if(isInRange)
         {
-            Debug.Log("Send");
-
-            if (hit.transform.GetComponent<pressureplates>() != null)
+            if(Input.GetKeyDown(interactKey))
             {
-                Debug.Log("Recieved");
-                interact.StepActivation();
+                interactAction.Invoke();
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            isInRange = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            isInRange = false;
         }
     }
 }

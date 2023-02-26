@@ -50,6 +50,7 @@ public class PlayerMove : MonoBehaviour
     [Header("Interact")]
     public int cumulate;
     public TextMeshProUGUI scoreText;
+    public GameObject finalSwitch;
 
     [Header("Motion")]
     public Transform orientation;
@@ -83,6 +84,7 @@ public class PlayerMove : MonoBehaviour
         damageScreen.SetActive(false);
         deathText.SetActive(false);
         winScreen.SetActive(false);
+        finalSwitch.SetActive(false);
 
         scoreText.text = "Score: " + 0;
         healthDisplay.text = "Health: " + maxHealth;
@@ -238,6 +240,11 @@ public class PlayerMove : MonoBehaviour
         scoreText.text = "Score: " + cumulate;
 
         if (cumulate == 3)
+        {
+            finalSwitch.SetActive(true);
+        }
+
+        if (cumulate == 4)
         {
             winScreen.SetActive(true);
             rb.constraints = RigidbodyConstraints.FreezePosition;

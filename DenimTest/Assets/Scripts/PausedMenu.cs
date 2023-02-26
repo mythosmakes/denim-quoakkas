@@ -8,31 +8,27 @@ public class PausedMenu : MonoBehaviour
       public GameObject pausedMenu;
       public static bool isPaused;
       public AudioSource audioSource;
-    public GameObject crosshairs;
+      public GameObject crosshairs;
 
       void Start()
       {
             pausedMenu.SetActive(false);
             isPaused = false;
             Time.timeScale = 1f;
-        crosshairs.SetActive(true);
+            crosshairs.SetActive(true);
       }
       
       void Update()
       {
             if (Input.GetKeyDown(KeyCode.P))
             {
-                Debug.Log("P");
-
                 if (isPaused)
                 {
-                Debug.Log("Unpausing");
                     ResumeGame();
                 }
 
                 else
                 {
-                    Debug.Log("Pausing");
                     PauseGame();
                 }
             }
@@ -46,6 +42,7 @@ public class PausedMenu : MonoBehaviour
         Cursor.visible = true;
 
         pausedMenu.SetActive(true);
+
         Time.timeScale = 0f;
         isPaused = true;
         crosshairs.SetActive(false);

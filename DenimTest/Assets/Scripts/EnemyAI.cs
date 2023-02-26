@@ -17,7 +17,6 @@ public class EnemyAI : MonoBehaviour
     [Header("Attacking")]
     public float timeBetweenAttacks;
     bool alreadyAttacked;
-    public GameObject attacker;
     public PlayerMove playerBod;
 
     [Header("States")]
@@ -34,7 +33,6 @@ public class EnemyAI : MonoBehaviour
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
-        attacker.SetActive(true);
     }
 
     void Update()
@@ -83,8 +81,6 @@ public class EnemyAI : MonoBehaviour
         if (!alreadyAttacked)
         {
             alreadyAttacked = true;
-
-            attacker.SetActive(false);
                         
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
@@ -93,7 +89,6 @@ public class EnemyAI : MonoBehaviour
     void ResetAttack()
     {       
         alreadyAttacked = false;        
-        attacker.SetActive(true);
     }
 
     public void Seen()

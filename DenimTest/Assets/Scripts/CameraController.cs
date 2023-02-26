@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        yRotation = 90;
     }
         
     void Update()
@@ -26,7 +27,7 @@ public class CameraController : MonoBehaviour
 
         yRotation += mouseX;
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -90f, 45f);
 
         // camera movement
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
